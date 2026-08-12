@@ -41,7 +41,7 @@ export default function Home() {
             loop
           >
           </ReactTyped>
-          <div id="buttons" className="flex flex-col items-center md:flex-row space-y-4 space-x-0 md:space-y-0 md:space-x-10">
+          <div id="buttons" className="flex flex-col items-center text-md md:text-lg md:flex-row space-y-4 space-x-0 md:space-y-0 md:space-x-10">
             <ButtonWithLink text="Start Now ->" route="/mealprep"></ButtonWithLink>
             <ButtonWithLink text="Learn More" route="/about"></ButtonWithLink>
           </div>
