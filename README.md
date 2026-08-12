@@ -20,6 +20,17 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+This project uses react-typed library, which can be installed with:
+
+```
+npm install react-typed --save
+# or
+yarn add react-typed
+```
+
+Link to the package: [React Typed](https://www.npmjs.com/package/react-typed)
+
+
 To run tests, install the necessary Jest dependencies:
 
 ```
