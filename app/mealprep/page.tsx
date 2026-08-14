@@ -1,9 +1,20 @@
+'use client'
+
+import { useState } from "react";
 import NavBar from "../components/navbar/navbar";
 import Card from "../components/card/card";
 import FloatingInput from "../components/floatinginput/floatinginput";
-import logo from "../../public/images/logo.png";
+import type { Ingredient } from "./lib/themealdb";
 
 export default function MealPrep() {
+
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSearch = (query: string) => {
+    console.log(query);
+  };
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -16,18 +27,24 @@ export default function MealPrep() {
 
       <NavBar items={navItems}></NavBar>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
-        <Card title="Title 1" image={logo} description="This is example card desc"></Card>
-        <Card title="Title 1" image={logo} description="This is example card desc"></Card>
-        <Card title="Title 1" image={logo} description="This is example card desc"></Card>
-        <Card title="Title 1" image={logo} description="This is example card desc"></Card>
-        <Card title="Title 1" image={logo} description="This is example card desc"></Card>
-        <Card title="Title 1" image={logo} description="This is example card desc"></Card>
+      {loading && <p className="mt-10 text-center">Loading...</p>}
+      {error && <p className="mt-10 text-center text-red-500">{error}</p>}
 
-        <FloatingInput></FloatingInput>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+
+        {ingredients.map((ingredient) => (
+          <Card
+            key={ingredient.idIngredient}
+            title={ingredient.strIngredient}
+            image={ingredient.strThumb}
+            description={`${ingredient.strDescription.slice(0, 150)}...`}
+          ></Card>
+        ))}
+
+        <FloatingInput onSearch={handleSearch}></FloatingInput>
+
       </div>
 
     </div>
   );
 }
-
