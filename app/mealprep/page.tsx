@@ -85,15 +85,7 @@ export default function MealPrep() {
         return intersection;
       }, mealIds[0]);
 
-      const allMeals = results.flat();
-      const unique = allMeals.filter((m) => commonIds.has(m.idMeal));
-      const seen = new Set<string>();
-
-      const deduped = unique.filter((m) => {
-        if (seen.has(m.idMeal)) return false;
-        seen.add(m.idMeal);
-        return true;
-      });
+      const deduped = results[0].filter((m) => commonIds.has(m.idMeal));
 
       if (deduped.length === 0) {
         setError("No recipes found with all these ingredients");
