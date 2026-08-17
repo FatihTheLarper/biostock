@@ -5,6 +5,16 @@ export interface Ingredient {
   strThumb: string;
 }
 
+export interface Meal {
+  idMeal: string;
+  strMeal: string;
+  strMealThumb: string;
+}
+
+interface MealListResult {
+  meals: Meal[] | null;
+}
+
 interface IngredientListResult {
   meals: Ingredient[] | null;
 }
@@ -21,6 +31,19 @@ export async function getIngredients(): Promise<Ingredient[]> {
   }
 
   const data = (await result.json()) as IngredientListResult;
+  return data.meals ?? [];
+
+}
+
+export async function filterMealsByIngredient(ingredient: string): Promise<Meal[]> {
+
+  const result = await fetch(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}&apiKey=${API_KEY}`);
+
+  if (!result.ok) {
+    throw new Error(`TheMealDB request failed: ${result.status}`);
+  }
+
+  const data = (await result.json()) as MealListResult;
   return data.meals ?? [];
 
 }

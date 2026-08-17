@@ -4,9 +4,11 @@ import { useState } from "react";
 
 interface FloatingInputProps {
   onSearch: (query: string) => void;
+  onGenerate: () => void;
+  showGenerate: boolean;
 }
 
-const FloatingInput = ({ onSearch }: FloatingInputProps) => {
+const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProps) => {
 
   const [input, setInput] = useState("")
 
@@ -18,12 +20,21 @@ const FloatingInput = ({ onSearch }: FloatingInputProps) => {
 
   return (
     <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-3/4 bg-black p-4 rounded-lg font-sans">
+      {showGenerate && (
+        <button
+          type="button"
+          onClick={onGenerate}
+          className="w-full bg-green-700 text-white font-semibold py-2 rounded mb-3 hover:bg-green-600 transition-colors"
+        >
+          Generate Recipes
+        </button>
+      )}
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.currentTarget.value)}
-          placeholder="Enter Recipes..."
+          placeholder="Enter Ingredients..."
           className="flex-1 bg-neutral-900 text-green-400 placeholder-neutral-400 border border-green-700 p-3 focus:outline-none focus:border-green-400"
         />
         <button
