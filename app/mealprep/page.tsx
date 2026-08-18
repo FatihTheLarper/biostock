@@ -1,5 +1,6 @@
 'use client'
 
+import { Skeletonize } from "react-layout-skeletonizer";
 import { useRef, useState } from "react";
 import NavBar from "../components/navbar/navbar";
 import Card from "../components/card/card";
@@ -112,37 +113,40 @@ export default function MealPrep() {
 
       <NavBar items={navItems}></NavBar>
 
-      {loading && <p className="mt-10 text-center">Loading...</p>}
       {error && <p className="mt-10 text-center text-red-500">{error}</p>}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+      <Skeletonize isLoading={loading}>
 
-        {ingredients.map((ingredient) => (
-          <Card
-            key={ingredient.idIngredient}
-            title={ingredient.strIngredient}
-            image={ingredient.strThumb}
-            description={`${(ingredient.strDescription ?? "").slice(0, 150)}...`}
-          ></Card>
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
 
-      </div>
+          {ingredients.map((ingredient) => (
+            <Card
+              key={ingredient.idIngredient}
+              title={ingredient.strIngredient}
+              image={ingredient.strThumb}
+              description={`${(ingredient.strDescription ?? "").slice(0, 150)}...`}
+            ></Card>
+          ))}
 
-      {recipes.length > 0 && (
-        <>
-          <h2 className="text-2xl font-bold mt-10 mb-4 text-center">Generated Recipes</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {recipes.map((meal) => (
-              <Card
-                key={meal.idMeal}
-                title={meal.strMeal}
-                image={meal.strMealThumb}
-                description=""
-              ></Card>
-            ))}
-          </div>
-        </>
-      )}
+        </div>
+
+        {recipes.length > 0 && (
+          <>
+            <h2 className="text-2xl font-bold mt-10 mb-4 text-center">Generated Recipes</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {recipes.map((meal) => (
+                <Card
+                  key={meal.idMeal}
+                  title={meal.strMeal}
+                  image={meal.strMealThumb}
+                  description=""
+                ></Card>
+              ))}
+            </div>
+          </>
+        )}
+
+      </Skeletonize>
 
       <FloatingInput
         onSearch={handleSearch}
