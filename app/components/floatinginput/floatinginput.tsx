@@ -1,23 +1,45 @@
 'use client'
 
-const FloatingInput = () => {
+import { useState } from "react";
+
+interface FloatingInputProps {
+  onSearch: (query: string) => void;
+  onGenerate: () => void;
+  showGenerate: boolean;
+}
+
+const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProps) => {
+
+  const [input, setInput] = useState("")
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Submitted");
+    onSearch(input.trim());
+    setInput("");
   };
 
   return (
-    <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-3/4 bg-black p-4 rounded-lg">
+    <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-3/4 bg-black p-4 rounded-lg font-sans">
+      {showGenerate && (
+        <button
+          type="button"
+          onClick={onGenerate}
+          className="w-full bg-green-700 text-white font-semibold py-2 rounded mb-3 hover:bg-green-600 transition-colors"
+        >
+          Generate Recipes
+        </button>
+      )}
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="text"
-          placeholder="Enter Recipes..."
+          value={input}
+          onChange={(e) => setInput(e.currentTarget.value)}
+          placeholder="Enter Ingredients..."
           className="flex-1 bg-neutral-900 text-green-400 placeholder-neutral-400 border border-green-700 p-3 focus:outline-none focus:border-green-400"
         />
         <button
           type="submit"
-          className="flex items-center h-full justify-center bg-green-700 text-black hover:bg-green-600 transition-colors"
+          className="flex items-center justify-center bg-green-700 text-black hover:bg-green-600 transition-all px-4"
         >
           <span className="text-3xl">&rarr;</span>
         </button>

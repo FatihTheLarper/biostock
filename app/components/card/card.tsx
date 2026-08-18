@@ -18,7 +18,7 @@ const Card = ({ title, image, description }: CardItems) => {
           src={image}
           alt={title}
           fill
-          className="object-fit"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
