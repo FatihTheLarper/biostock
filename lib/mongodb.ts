@@ -12,4 +12,6 @@ declare global {
 
 const cached = global.mongooseCache ?? (global.mongooseCache = mongoose.connect(MONGO_URI));
 
-export default cached;
+export default async function connectToDatabase() {
+  return cached;
+};
