@@ -23,4 +23,3 @@ declare global {
 const SavedRecipe = global.SavedRecipeModel ?? (global.SavedRecipeModel = mongoose.model<SavedRecipe>("SavedRecipe", savedRecipeSchema));
 
 export default SavedRecipe;
-
