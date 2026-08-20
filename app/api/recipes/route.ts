@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import connectToDatabase from "../../../lib/mongodb";
+import connectToDatabase from "@/lib/mongodb";
 import SavedRecipe from "../../../app/mealprep/lib/models/SavedRecipe";
 
 export async function GET() {

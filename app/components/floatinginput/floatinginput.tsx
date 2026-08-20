@@ -24,7 +24,7 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProp
         <button
           type="button"
           onClick={onGenerate}
-          className="w-full bg-green-700 text-white font-semibold py-2 rounded mb-3 hover:bg-green-600 transition-colors"
+          className="w-full bg-green-700 text-white font-semibold py-2 mb-3 hover:bg-green-600 rounded-full hover:rounded-xl transition-colors"
         >
           Generate Recipes
         </button>
@@ -35,11 +35,11 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProp
           value={input}
           onChange={(e) => setInput(e.currentTarget.value)}
           placeholder="Enter Ingredients..."
-          className="flex-1 bg-neutral-900 text-green-400 placeholder-neutral-400 border border-green-700 p-3 focus:outline-none focus:border-green-400"
+          className="flex-1 bg-neutral-900 text-green-400 placeholder-neutral-400 border border-green-700 p-3 focus:outline-none rounded-full focus:border-green-400 focus:rounded-2xl"
         />
         <button
           type="submit"
-          className="flex items-center justify-center bg-green-700 text-black hover:bg-green-600 transition-all px-4"
+          className="flex items-center justify-center bg-green-700 text-black hover:bg-green-600 rounded-full hover:rounded-2xl px-4"
         >
           <span className="text-3xl">&rarr;</span>
         </button>

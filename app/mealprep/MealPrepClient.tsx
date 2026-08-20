@@ -123,7 +123,7 @@ export default function MealPrep() {
             <Card
               key={ingredient.idIngredient}
               title={ingredient.strIngredient}
-              image={ingredient.strThumb}
+              image={ingredient.strThumb ?? "/images/not-found.jpg"}
               description={`${(ingredient.strDescription ?? "").slice(0, 150)}...`}
             ></Card>
           ))}

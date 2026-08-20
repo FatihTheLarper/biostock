@@ -23,7 +23,7 @@ const NavBar = ({ items }: NavbarProps) => {
     <nav className="relative flex w-full py-4 px-6 items-center justify-between rounded-xl font-sans bg-green-600 dark:bg-green-700 text-white text-xl xl:text-2xl">
 
       <div className="nav_title flex items-center space-x-3">
-        <Image src={logo} alt="logo-image" width={80} style={{ height: 'auto' }} className="rounded-xl" loading="eager"></Image>
+        <Image src={logo} alt="logo-image" width={80} style={{ height: 'auto' }} className="rounded-xl hover:animate-spin" loading="eager"></Image>
         <h1>BioStock</h1>
       </div>
 
