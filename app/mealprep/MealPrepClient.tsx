@@ -6,7 +6,7 @@ import NavBar from "../components/navbar/navbar";
 import Card from "../components/card/card";
 import FloatingInput from "../components/floatinginput/floatinginput";
 import type { Ingredient, Meal } from "./lib/themealdb";
-import { getIngredients, filterMealsByIngredient } from "./lib/themealdb";
+import { getIngredients, filterMealsByIngredient, lookupMealById } from "./lib/themealdb";
 
 export default function MealPrep() {
 
@@ -74,24 +74,31 @@ export default function MealPrep() {
         ingredients.map((i) => filterMealsByIngredient(i.strIngredient))
       );
 
-      const mealIds = results.map((meals) => new Set(meals.map((m) => m.idMeal)));
+      const userIngredientNames = new Set(
+        ingredients.map((i) => i.strIngredient.toLowerCase())
+      );
 
-      const commonIds = mealIds.reduce((a, b) => {
-        const intersection = new Set<string>();
-        for (const id of a) {
-          if (b.has(id)) {
-            intersection.add(id);
-          }
+      const allMealIds = [...new Set(results.flat().map((m) => m.idMeal))];
+
+      const details = await Promise.all(
+        allMealIds.map((id) => lookupMealById(id))
+      );
+
+      const matching: { idMeal: string; strMeal: string; strMealThumb: string }[] = [];
+
+      for (const d of details) {
+        if (!d) continue;
+        if (d.ingredients.length === 0) continue;
+        const hasAll = d.ingredients.every((ing) => userIngredientNames.has(ing));
+        if (hasAll) {
+          matching.push({ idMeal: d.idMeal, strMeal: d.strMeal, strMealThumb: d.strMealThumb });
         }
-        return intersection;
-      }, mealIds[0]);
+      }
 
-      const deduped = results[0].filter((m) => commonIds.has(m.idMeal));
-
-      if (deduped.length === 0) {
+      if (matching.length === 0) {
         setError("No recipes found with all these ingredients");
       } else {
-        setRecipes(deduped);
+        setRecipes(matching);
       }
     }
     catch (e) {
