@@ -1,12 +1,13 @@
 'use client'
 
 import { Skeletonize } from "react-layout-skeletonizer";
-import { useRef, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import NavBar from "../components/navbar/navbar";
 import Card from "../components/card/card";
 import FloatingInput from "../components/floatinginput/floatinginput";
 import type { Ingredient, Meal } from "./lib/themealdb";
 import { getIngredients, filterMealsByIngredient, lookupMealById } from "./lib/themealdb";
+import { fetchSavedIngredients, fetchSavedRecipes, saveIngredients, saveRecipes } from "./lib/api";
 
 export default function MealPrep() {
 
@@ -14,6 +15,11 @@ export default function MealPrep() {
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchSavedIngredients().then(setIngredients).catch(() => { });
+    fetchSavedRecipes().then(setRecipes).catch(() => { });
+  }, []);
 
   const allIngredients = useRef<Ingredient[]>([]);
 
@@ -58,6 +64,8 @@ export default function MealPrep() {
 
     setIngredients((prev) => [...prev, ...newIngredients]);
 
+    saveIngredients(newIngredients);
+
   };
 
   const handleGenerate = async () => {
@@ -99,6 +107,7 @@ export default function MealPrep() {
         setError("No recipes found with all these ingredients");
       } else {
         setRecipes(matching);
+        saveRecipes(matching);
       }
     }
     catch (e) {
