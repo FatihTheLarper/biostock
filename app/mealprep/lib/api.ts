@@ -27,3 +27,15 @@ export async function saveRecipes(recipes: Meal[]): Promise<void> {
     body: JSON.stringify(recipes),
   });
 }
+
+export async function deleteIngredient(idIngredient: string): Promise<void> {
+  await fetch(`/api/ingredients?idIngredient=${encodeURIComponent(idIngredient)}`, {
+    method: "DELETE"
+  });
+}
+
+export async function deleteRecipe(idMeal: string): Promise<void> {
+  await fetch(`/api/recipes?idMeal=${encodeURIComponent(idMeal)}`, {
+    method: "DELETE"
+  });
+}

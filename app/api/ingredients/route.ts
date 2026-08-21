@@ -37,3 +37,26 @@ export async function POST(request: Request) {
   return NextResponse.json({ ok: true });
 
 }
+
+export async function DELETE(request: Request) {
+
+  const { userId } = await auth();
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { searchParams } = new URL(request.url);
+  const idIngredient = searchParams.get("idIngredient");
+
+  if (!idIngredient) {
+    return NextResponse.json({ error: "Missing idIngredient" }, { status: 400 });
+  }
+
+  await connectToDatabase();
+
+  await SavedIngredient.deleteOne({ userId, idIngredient });
+
+  return NextResponse.json({ ok: true });
+
+}

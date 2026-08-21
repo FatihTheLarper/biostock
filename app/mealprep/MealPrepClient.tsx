@@ -7,7 +7,7 @@ import Card from "../components/card/card";
 import FloatingInput from "../components/floatinginput/floatinginput";
 import type { Ingredient, Meal } from "./lib/themealdb";
 import { getIngredients, filterMealsByIngredient, lookupMealById } from "./lib/themealdb";
-import { fetchSavedIngredients, fetchSavedRecipes, saveIngredients, saveRecipes } from "./lib/api";
+import { fetchSavedIngredients, fetchSavedRecipes, saveIngredients, saveRecipes, deleteIngredient, deleteRecipe } from "./lib/api";
 
 export default function MealPrep() {
 
@@ -118,6 +118,16 @@ export default function MealPrep() {
 
   };
 
+  const handleDeleteIngredient = async (idIngredient: string) => {
+    await deleteIngredient(idIngredient);
+    setIngredients((prev) => prev.filter((i) => i.idIngredient !== idIngredient));
+  };
+
+  const handleDeleteRecipe = async (idMeal: string) => {
+    await deleteRecipe(idMeal);
+    setRecipes((prev) => prev.filter((r) => r.idMeal !== idMeal));
+  };
+
   const navItems = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
@@ -137,10 +147,11 @@ export default function MealPrep() {
 
           {ingredients.map((ingredient) => (
             <Card
+              onDelete={() => handleDeleteIngredient(ingredient.idIngredient)}
               key={ingredient.idIngredient}
               title={ingredient.strIngredient}
               image={ingredient.strThumb ?? "/images/not-found.jpg"}
-              description={`${(ingredient.strDescription ?? "").slice(0, 150)}...`}
+              description={`${(ingredient.strDescription ?? "A versatile component that enhances the overall profile of a dish, offering complementary notes that elevate the dining experience while integrating seamlessly with other elements to create a cohesive whole").slice(0, 150)}...`}
             ></Card>
           ))}
 
@@ -152,6 +163,7 @@ export default function MealPrep() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {recipes.map((meal) => (
                 <Card
+                  onDelete={() => handleDeleteRecipe(meal.idMeal)}
                   key={meal.idMeal}
                   title={meal.strMeal}
                   image={meal.strMealThumb}
