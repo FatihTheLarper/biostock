@@ -19,7 +19,7 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProp
   };
 
   return (
-    <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-3/4 bg-black p-4 rounded-lg font-sans">
+    <div className="min-w-52 fixed bottom-20 left-1/2 -translate-x-1/2 w-[90%] bg-black opacity-80 p-4 rounded-xl font-sans">
       {showGenerate && (
         <button
           type="button"
@@ -29,7 +29,7 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProp
           Generate Recipes
         </button>
       )}
-      <form onSubmit={handleSubmit} className="flex gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
         <input
           type="text"
           value={input}

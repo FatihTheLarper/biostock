@@ -26,6 +26,21 @@
   height: 2.5rem;
 }
 
+/* nextjs-toast-notify customization */
+.toast-container {
+  --toast-offset: 0.7rem;
+}
+
+.toast-nextjs {
+  --toast-bg-color: #1a1a2e;
+  --toast-text-color: #e0e0e0;
+  --toast-success-color: #16a34a;
+  --toast-error-color: #dc2626;
+  --toast-border-radius: 12px;
+  --toast-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --toast-close-color: #999;
+}
+
 
 @theme inline {
   --color-background: var(--background);
