@@ -9,7 +9,7 @@ interface CardItems {
 
 const Card = ({ title, image, description, onDelete }: CardItems) => {
   return (
-    <div className="w-full max-w-sm mx-auto bg-green-500 dark:bg-green-600 rounded-xl shadow-lg overflow-hidden text-white transition-colors">
+    <div className="w-full max-w-sm mx-auto bg-green-500 dark:bg-green-600 rounded-xl shadow-lg overflow-hidden text-white hover:text-shadow-black hover:bg-green-600 dark:hover:bg-green-700 hover:-translate-y-1.5 transition-all">
       <div id="title" className="text-xl px-6 py-4 text-center">
         <h2 className="text-xl font-bold">{title}</h2>
       </div>
