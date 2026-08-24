@@ -4,9 +4,10 @@ interface CardItems {
   title: string;
   image: string | StaticImageData;
   description: string;
+  onDelete?: () => void;
 }
 
-const Card = ({ title, image, description }: CardItems) => {
+const Card = ({ title, image, description, onDelete }: CardItems) => {
   return (
     <div className="w-full max-w-sm mx-auto bg-green-500 dark:bg-green-600 rounded-xl shadow-lg overflow-hidden text-white transition-colors">
       <div id="title" className="text-xl px-6 py-4 text-center">
@@ -26,6 +27,12 @@ const Card = ({ title, image, description }: CardItems) => {
       <div id="description" className="text-lg px-6 py-4 text-center">
         <p className="opacity-90">{description}</p>
       </div>
+
+      {onDelete && (
+        <div className="relative py-4 text-center">
+          <button onClick={onDelete} className='p-2 bg-red-400 rounded-xl dark:bg-red-600 hover:bg-red-500 dark:hover:bg-red-700 hover:rounded-2xl transition-all cursor-pointer'>Delete Item</button>
+        </div>
+      )}
     </div>
   );
 };

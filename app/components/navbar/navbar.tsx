@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import logo from "../../../public/images/logo.png"
 import { useState } from "react"
+import { UserButton } from "@clerk/nextjs"
 
 interface NavItem {
   name: string;
@@ -22,15 +23,16 @@ const NavBar = ({ items }: NavbarProps) => {
     <nav className="relative flex w-full py-4 px-6 items-center justify-between rounded-xl font-sans bg-green-600 dark:bg-green-700 text-white text-xl xl:text-2xl">
 
       <div className="nav_title flex items-center space-x-3">
-        <Image src={logo} alt="logo-image" width={80} style={{ height: 'auto' }} className="rounded-xl" loading="eager"></Image>
+        <Image src={logo} alt="logo-image" width={80} style={{ height: 'auto' }} className="rounded-xl hover:animate-spin" loading="eager"></Image>
         <h1>BioStock</h1>
       </div>
 
       {/* desktop links */}
-      <div className="hidden md:flex space-x-12">
+      <div className="hidden md:flex items-center space-x-12">
         {items.map((item) => (
           <Link key={item.href} href={item.href} className="hover:text-gray-300 transition-all">{item.name}</Link>
         ))}
+        <UserButton />
       </div>
 
       {/* mobile hamburger menu */}
@@ -48,6 +50,9 @@ const NavBar = ({ items }: NavbarProps) => {
               {item.name}
             </Link>
           ))}
+          <div className="px-4 py-2 flex justify-end">
+            <UserButton />
+          </div>
         </div>
       )}
 
