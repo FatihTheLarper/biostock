@@ -28,11 +28,10 @@ interface IngredientListResult {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_THEMEALDB_BASE_URL;
-const API_KEY = process.env.NEXT_PUBLIC_THEMEALDB_API_KEY;
 
 export async function getIngredients(): Promise<Ingredient[]> {
 
-  const result = await fetch(`${BASE_URL}/list.php?i=list&apiKey=${API_KEY}`);
+  const result = await fetch(`${BASE_URL}/list.php?i=list`);
 
   if (!result.ok) {
     throw new Error(`TheMealDB request failed: ${result.status}`);
@@ -45,7 +44,7 @@ export async function getIngredients(): Promise<Ingredient[]> {
 
 export async function filterMealsByIngredient(ingredient: string): Promise<Meal[]> {
 
-  const result = await fetch(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}&apiKey=${API_KEY}`);
+  const result = await fetch(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}`);
 
   if (!result.ok) {
     throw new Error(`TheMealDB request failed: ${result.status}`);
@@ -58,7 +57,7 @@ export async function filterMealsByIngredient(ingredient: string): Promise<Meal[
 
 export async function lookupMealById(id: string): Promise<MealDetail | null> {
 
-  const result = await fetch(`${BASE_URL}/lookup.php?i=${id}&apiKey=${API_KEY}`);
+  const result = await fetch(`${BASE_URL}/lookup.php?i=${id}`);
 
   if (!result.ok) {
     throw new Error(`TheMealDB request failed: ${result.status}`);

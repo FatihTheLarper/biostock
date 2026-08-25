@@ -6,9 +6,9 @@ import { useRef, useEffect, useState } from "react";
 import NavBar from "../components/navbar/navbar";
 import Card from "../components/card/card";
 import FloatingInput from "../components/floatinginput/floatinginput";
-import type { Ingredient, Meal } from "./lib/themealdb";
-import { getIngredients, filterMealsByIngredient, lookupMealById } from "./lib/themealdb";
-import { fetchSavedIngredients, fetchSavedRecipes, saveIngredients, saveRecipes, deleteIngredient, deleteRecipe } from "./lib/api";
+import type { Ingredient, Meal } from "@/lib/themealdb";
+import { getIngredients } from "@/lib/themealdb";
+import { fetchSavedIngredients, fetchSavedRecipes, saveIngredients, saveRecipes, deleteIngredient, deleteRecipe, generateRecipes } from "./lib/api";
 
 export default function MealPrep() {
 
@@ -102,46 +102,22 @@ export default function MealPrep() {
     setLoading(true);
 
     try {
-      const results = await Promise.all(
-        ingredients.map((i) => filterMealsByIngredient(i.strIngredient))
-      );
-
-      const userIngredientNames = new Set(
-        ingredients.map((i) => i.strIngredient.toLowerCase())
-      );
-
-      const allMealIds = [...new Set(results.flat().map((m) => m.idMeal))];
-
-      const details = await Promise.all(
-        allMealIds.map((id) => lookupMealById(id))
-      );
-
-      const matching: { idMeal: string; strMeal: string; strMealThumb: string }[] = [];
-
-      for (const d of details) {
-        if (!d) continue;
-        if (d.ingredients.length === 0) continue;
-        const hasAll = d.ingredients.every((ing) => userIngredientNames.has(ing));
-        if (hasAll) {
-          matching.push({ idMeal: d.idMeal, strMeal: d.strMeal, strMealThumb: d.strMealThumb });
-        }
-      }
+      const matching = await generateRecipes(ingredients.map((i) => i.strIngredient));
 
       if (matching.length === 0) {
-        setError("No recipes found with all these ingredients");
-        showToast.error("No recipes found with all these ingredients", {
-          duration: 2000, // 2 seconds
+        setError("No recipes found");
+        showToast.error("No recipes found with these ingredients", {
+          duration: 2000,
           position: "top-center",
           transition: "bounceIn",
           icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
           sound: false,
-
         });
       } else {
         setRecipes(matching);
         saveRecipes(matching);
         showToast.success("Recipe added to inventory!", {
-          duration: 2000, // 2 seconds
+          duration: 2000,
           position: "top-center",
           transition: "bounceIn",
           icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
