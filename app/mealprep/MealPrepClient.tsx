@@ -15,7 +15,7 @@ export default function MealPrep() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [, setError] = useState<string | null>(null);
+  const [_error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -60,6 +60,15 @@ export default function MealPrep() {
 
     if (matches.length === 0) {
       setError(`No ingredient found for "${query}"`);
+      showToast.error(`No ingredient found for "${query}"`, {
+        duration: 2000, // 2 seconds
+        position: "top-center",
+        transition: "bounceIn",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+        sound: false,
+        progress: true
+      });
+
       return;
     }
 
@@ -177,7 +186,7 @@ export default function MealPrep() {
   };
 
   const navItems = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/home" },
     { name: "About Us", href: "/about" },
     { name: "Contact", href: "mailto:support@example.com" }
   ];

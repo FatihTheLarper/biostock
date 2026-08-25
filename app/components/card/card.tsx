@@ -9,7 +9,7 @@ interface CardItems {
 
 const Card = ({ title, image, description, onDelete }: CardItems) => {
   return (
-    <div className="w-full max-w-sm mx-auto bg-green-500 dark:bg-green-600 rounded-xl shadow-lg overflow-hidden text-white hover:text-shadow-black hover:bg-green-600 dark:hover:bg-green-700 hover:-translate-y-1.5 transition-all">
+    <div className="w-full max-w-sm max-h-120 mx-auto bg-green-500 dark:bg-green-600 rounded-xl shadow-lg overflow-hidden text-white hover:text-shadow-black hover:bg-green-600 dark:hover:bg-green-700 hover:-translate-y-1.5 transition-all">
       <div id="title" className="text-xl px-6 py-4 text-center">
         <h2 className="text-xl font-bold">{title}</h2>
       </div>
@@ -18,6 +18,7 @@ const Card = ({ title, image, description, onDelete }: CardItems) => {
         <Image
           src={image}
           alt={title}
+          loading='eager'
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -25,7 +26,7 @@ const Card = ({ title, image, description, onDelete }: CardItems) => {
       </div>
 
       <div id="description" className="text-lg px-6 py-4 text-center">
-        <p className="opacity-90">{description}</p>
+        <p className="opacity-90 line-clamp-3">{description}</p>
       </div>
 
       {onDelete && (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Show, SignInButton, SignUpButton } from "@clerk/nextjs";
+import Footer from "./components/footer/footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </header>
           </Show>
           {children}
+          <Footer />
         </ClerkProvider>
       </body>
     </html>

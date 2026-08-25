@@ -4,7 +4,7 @@ import ButtonWithLink from "../components/buttons/button_with_link"
 const About = () => {
 
   const navItems = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/home" },
     { name: "Mealprep", href: "/mealprep" },
     { name: "Contact", href: "mailto:support@example.com" }
   ]
