@@ -1,35 +1,51 @@
+import { z } from "zod";
 import { NextResponse } from "next/server";
 import { filterMealsByIngredient, lookupMealById } from "@/lib/themealdb";
+import { GenerateBody } from "@/lib/schemas";
 
 export async function POST(request: Request) {
-  const { ingredients } = (await request.json()) as { ingredients: string[] };
 
-  if (!ingredients || ingredients.length === 0) {
-    return NextResponse.json([]);
+  const body = await request.json();
+  const parsed = GenerateBody.safeParse(body);
+
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        error: "Invalid request",
+        details: z.flattenError(parsed.error).fieldErrors
+      },
+      { status: 400 });
   }
 
-  const results = await Promise.all(
-    ingredients.map((i) => filterMealsByIngredient(i))
-  );
+  try {
+    const { ingredients } = parsed.data;
 
-  const allMealIds = [...new Set(results.flat().map((m) => m.idMeal))];
+    const results = await Promise.all(
+      ingredients.map((i) => filterMealsByIngredient(i))
+    );
 
-  const details = await Promise.all(allMealIds.map((id) => lookupMealById(id)));
+    const allMealIds = [...new Set(results.flat().map((m) => m.idMeal))];
 
-  const userNames = new Set(ingredients.map((i) => i.toLowerCase()));
-  const matching: { idMeal: string; strMeal: string; strMealThumb: string }[] = [];
+    const details = await Promise.all(allMealIds.map((id) => lookupMealById(id)));
 
-  for (const d of details) {
+    const userNames = new Set(ingredients.map((i) => i.toLowerCase()));
+    const matching: { idMeal: string; strMeal: string; strMealThumb: string }[] = [];
 
-    if (!d || d.ingredients.length === 0) continue;
+    for (const d of details) {
 
-    const missing = d.ingredients.filter((ing) => !userNames.has(ing));
+      if (!d || d.ingredients.length === 0) continue;
 
-    if (missing.length <= 1) {
-      matching.push({ idMeal: d.idMeal, strMeal: d.strMeal, strMealThumb: d.strMealThumb });
+      const missing = d.ingredients.filter((ing) => !userNames.has(ing));
+
+      if (missing.length <= 1) {
+        matching.push({ idMeal: d.idMeal, strMeal: d.strMeal, strMealThumb: d.strMealThumb });
+      }
+
     }
 
+    return NextResponse.json(matching);
+  } catch {
+    return NextResponse.json({ error: "Failed to generate recipes" }, { status: 500 });
   }
 
-  return NextResponse.json(matching);
 }

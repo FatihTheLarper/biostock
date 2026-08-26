@@ -1,7 +1,9 @@
+import { z } from "zod";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import connectToDatabase from "../../../lib/mongodb";
 import SavedIngredient from "../../../app/mealprep/lib/models/SavedIngredient";
+import { IngredientsBody } from "@/lib/schemas";
 
 export async function GET() {
 
@@ -11,11 +13,13 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  await connectToDatabase();
-
-  const ingredients = await SavedIngredient.find({ userId }).lean();
-
-  return NextResponse.json(ingredients);
+  try {
+    await connectToDatabase();
+    const ingredients = await SavedIngredient.find({ userId }).lean();
+    return NextResponse.json(ingredients);
+  } catch {
+    return NextResponse.json({ error: "Failed to fetch ingredients" }, { status: 500 });
+  }
 
 }
 
@@ -28,13 +32,25 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const items = body.map((item: Record<string, string>) => ({ ...item, userId }));
+  const parsed = IngredientsBody.safeParse(body);
 
-  await connectToDatabase();
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        error: "Invalid ingredients data",
+        details: z.flattenError(parsed.error).fieldErrors
+      },
+      { status: 400 });
+  }
 
-  await SavedIngredient.insertMany(items, { ordered: false }).catch(() => { });
-
-  return NextResponse.json({ ok: true });
+  try {
+    await connectToDatabase();
+    const items = parsed.data.map((item) => ({ ...item, userId }));
+    await SavedIngredient.insertMany(items, { ordered: false }).catch(() => { });
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "Failed to save ingredients" }, { status: 500 });
+  }
 
 }
 
@@ -53,10 +69,12 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Missing idIngredient" }, { status: 400 });
   }
 
-  await connectToDatabase();
-
-  await SavedIngredient.deleteOne({ userId, idIngredient });
-
-  return NextResponse.json({ ok: true });
+  try {
+    await connectToDatabase();
+    await SavedIngredient.deleteOne({ userId, idIngredient });
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "Failed to delete ingredient" }, { status: 500 });
+  }
 
 }
