@@ -43,7 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               colorDanger: "#EF4444",
               colorSuccess: "#22C543",
               colorWarning: "#F36B16",
-              colorShimmer: "#bijela",
+              colorShimmer: "#FFFFFF",
               colorModalBackdrop: "#000000",
               borderRadius: "0.375rem",
             },

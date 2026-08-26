@@ -6,9 +6,10 @@ interface FloatingInputProps {
   onSearch: (query: string) => void;
   onGenerate: () => void;
   showGenerate: boolean;
+  loading: boolean;
 }
 
-const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProps) => {
+const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: FloatingInputProps) => {
 
   const [input, setInput] = useState("")
 
@@ -23,8 +24,9 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProp
       {showGenerate && (
         <button
           type="button"
+          disabled={loading}
           onClick={onGenerate}
-          className="w-full bg-green-700 text-white font-semibold py-2 mb-3 hover:bg-green-600 rounded-full hover:rounded-xl transition-colors"
+          className="w-full bg-green-700 text-white font-semibold py-2 mb-3 hover:bg-green-600 rounded-full hover:rounded-xl transition-colors disabled:cursor-not-allowed"
         >
           Generate Recipes
         </button>
@@ -39,7 +41,8 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProp
         />
         <button
           type="submit"
-          className="flex items-center justify-center bg-green-700 text-black hover:bg-green-600 rounded-full hover:rounded-2xl px-4"
+          disabled={loading}
+          className="flex items-center justify-center bg-green-700 text-black hover:bg-green-600 rounded-full hover:rounded-2xl px-4 disabled:cursor-not-allowed"
         >
           <span className="text-3xl">&rarr;</span>
         </button>

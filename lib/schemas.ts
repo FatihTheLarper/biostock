@@ -3,8 +3,8 @@ import { z } from "zod";
 export const IngredientSchema = z.object({
   idIngredient: z.string().min(1),
   strIngredient: z.string().min(1),
-  strThumb: z.string().optional().default(""),
-  strDescription: z.string().optional().default(""),
+  strThumb: z.string().nullish().transform((v) => v ?? ""),
+  strDescription: z.string().nullish().transform((v) => v ?? ""),
 });
 
 export const IngredientsBody = z.array(IngredientSchema).min(1);

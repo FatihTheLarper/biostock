@@ -217,6 +217,7 @@ export default function MealPrep() {
         onSearch={handleSearch}
         onGenerate={handleGenerate}
         showGenerate={ingredients.length > 0}
+        loading={loading}
       ></FloatingInput>
 
     </div>
