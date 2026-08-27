@@ -3,7 +3,7 @@ import Image, { StaticImageData } from 'next/image';
 interface CardItems {
   title: string;
   image: string | StaticImageData;
-  description: string;
+  description?: string;
   onDelete?: () => void;
 }
 

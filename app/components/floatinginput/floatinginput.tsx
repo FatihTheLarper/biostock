@@ -20,7 +20,7 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: Floating
   };
 
   return (
-    <div className="min-w-52 fixed bottom-20 left-1/2 -translate-x-1/2 w-[90%] bg-black opacity-80 p-4 rounded-xl font-sans">
+    <div className="min-w-52 fixed bottom-32 left-1/2 -translate-x-1/2 w-[90%] bg-black opacity-80 p-4 rounded-xl font-sans">
       {showGenerate && (
         <button
           type="button"

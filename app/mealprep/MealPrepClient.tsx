@@ -204,7 +204,6 @@ export default function MealPrep() {
                   key={meal.idMeal}
                   title={meal.strMeal}
                   image={meal.strMealThumb}
-                  description=""
                 ></Card>
               ))}
             </div>
