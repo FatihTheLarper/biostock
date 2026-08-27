@@ -16,7 +16,6 @@
     "nextjs-toast-notify": "^1.62.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "react-layout-skeletonizer": "^1.1.1",
     "react-typed": "^2.0.12",
     "zod": "^4.4.3"
   },

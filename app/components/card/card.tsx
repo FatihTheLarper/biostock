@@ -30,7 +30,7 @@ const Card = ({ title, image, description, onDelete }: CardItems) => {
       </div>
 
       {onDelete && (
-        <div className="relative py-4 text-center">
+        <div className="relative bottom-0 py-4 text-center">
           <button onClick={onDelete} className='p-2 bg-red-400 rounded-xl dark:bg-red-600 hover:bg-red-500 dark:hover:bg-red-700 hover:rounded-2xl transition-all cursor-pointer'>Delete Item</button>
         </div>
       )}

@@ -1,7 +1,6 @@
 'use client'
 
 import { showToast } from "nextjs-toast-notify";
-import { Skeletonize } from "react-layout-skeletonizer";
 import { useRef, useEffect, useState } from "react";
 import NavBar from "../components/navbar/navbar";
 import Card from "../components/card/card";
@@ -15,7 +14,6 @@ export default function MealPrep() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [_error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -27,18 +25,37 @@ export default function MealPrep() {
 
   const allIngredients = useRef<Ingredient[]>([]);
 
-  const handleSearch = async (query: string) => {
+  const errorToast = (message: string) => {
+    showToast.error(message, {
+      duration: 2000,
+      position: "top-center",
+      transition: "bounceIn",
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+      sound: false,
+    });
+  };
 
-    setError(null);
+  const successToast = (message: string, progress: boolean) => {
+    showToast.success(message, {
+      duration: 2000,
+      position: "top-center",
+      transition: "bounceIn",
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+      sound: false,
+      progress,
+    });
+  };
+
+  const handleSearch = async (query: string) => {
 
     if (allIngredients.current.length === 0) {
       setLoading(true);
       try {
         allIngredients.current = await getIngredients();
       }
-      catch (e) {
+      catch {
         setLoading(false);
-        setError(e instanceof Error ? e.message : "Failed to load ingredients");
+        errorToast("Failed to load ingredients");
         return;
       }
       setLoading(false);
@@ -59,16 +76,7 @@ export default function MealPrep() {
       );
 
     if (matches.length === 0) {
-      setError(`No ingredient found for "${query}"`);
-      showToast.error(`No ingredient found for "${query}"`, {
-        duration: 2000, // 2 seconds
-        position: "top-center",
-        transition: "bounceIn",
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
-        sound: false,
-        progress: true
-      });
-
+      errorToast(`No ingredient found for "${query}"`);
       return;
     }
 
@@ -79,23 +87,17 @@ export default function MealPrep() {
 
     setIngredients((prev) => [...prev, ...newIngredients]);
 
-    saveIngredients(newIngredients);
-
-    showToast.success("Ingredient added to inventory!", {
-      duration: 2000, // 2 seconds
-      position: "top-center",
-      transition: "bounceIn",
-      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-      sound: false,
-      progress: true
-    });
+    try {
+      await saveIngredients(newIngredients);
+      successToast("Ingredient added to inventory!", true);
+    }
+    catch {
+      errorToast("Failed to save ingredient to inventory");
+    }
 
   };
 
   const handleGenerate = async () => {
-
-    setError(null);
-    setRecipes([]);
 
     if (ingredients.length === 0) return;
 
@@ -105,29 +107,15 @@ export default function MealPrep() {
       const matching = await generateRecipes(ingredients.map((i) => i.strIngredient));
 
       if (matching.length === 0) {
-        setError("No recipes found");
-        showToast.error("No recipes found with these ingredients", {
-          duration: 2000,
-          position: "top-center",
-          transition: "bounceIn",
-          icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
-          sound: false,
-        });
+        errorToast("No recipes found with these ingredients");
       } else {
         setRecipes(matching);
-        saveRecipes(matching);
-        showToast.success("Recipe added to inventory!", {
-          duration: 2000,
-          position: "top-center",
-          transition: "bounceIn",
-          icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-          sound: false,
-          progress: true
-        });
+        await saveRecipes(matching);
+        successToast("Recipe added to inventory!", true);
       }
     }
-    catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to fetch recipes");
+    catch {
+      errorToast("Failed to fetch recipes");
     }
 
     setLoading(false);
@@ -138,18 +126,10 @@ export default function MealPrep() {
     try {
       await deleteIngredient(idIngredient);
       setIngredients((prev) => prev.filter((i) => i.idIngredient !== idIngredient));
-
-      showToast.success("Ingredient Deleted!", {
-        duration: 2000, // 2 seconds
-        position: "top-center",
-        transition: "bounceIn",
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-        sound: false,
-        progress: true
-      });
+      successToast("Ingredient Deleted!", true);
     }
-    catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to delete ingredient");
+    catch {
+      errorToast("Failed to delete ingredient");
     }
   }
 
@@ -157,17 +137,10 @@ export default function MealPrep() {
     try {
       await deleteRecipe(idMeal);
       setRecipes((prev) => prev.filter((r) => r.idMeal !== idMeal));
-      showToast.success("Recipe Deleted!", {
-        duration: 2000, // 2 seconds
-        position: "top-center",
-        transition: "bounceIn",
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-        sound: false,
-        progress: true
-      });
+      successToast("Recipe Deleted!", true);
     }
-    catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to delete recipe")
+    catch {
+      errorToast("Failed to delete recipe");
     }
   }
 
@@ -182,45 +155,51 @@ export default function MealPrep() {
 
       <NavBar items={navItems}></NavBar>
 
-      <Skeletonize isLoading={loading}>
-
-        {ingredients.length <= 0 && (
-          <div className="flex justify-center items-center">
-            <h1 className="text-xl md:text-2xl font-semibold mt-40 mb-4 text-center">No ingredients added to your inventory</h1>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
-
-          {ingredients.map((ingredient) => (
-            <Card
-              onDelete={() => handleDeleteIngredient(ingredient.idIngredient)}
-              key={ingredient.idIngredient}
-              title={ingredient.strIngredient}
-              image={ingredient.strThumb ?? "/images/not-found.jpg"}
-              description={`${(ingredient.strDescription ?? "A versatile component that enhances the overall profile of a dish, offering complementary notes that elevate the dining experience while integrating seamlessly with other elements to create a cohesive whole").slice(0, 150)}...`}
-            ></Card>
+      {loading && ingredients.length === 0 && recipes.length === 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10 animate-pulse">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-64 bg-neutral-200 dark:bg-neutral-700 rounded-xl" />
           ))}
-
         </div>
-
-        {recipes.length > 0 && (
-          <>
-            <h2 className="text-2xl font-bold mt-10 mb-4 text-center">Generated Recipes</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {recipes.map((meal) => (
-                <Card
-                  onDelete={() => handleDeleteRecipe(meal.idMeal)}
-                  key={meal.idMeal}
-                  title={meal.strMeal}
-                  image={meal.strMealThumb}
-                ></Card>
-              ))}
+      ) : (
+        <>
+          {ingredients.length <= 0 && (
+            <div className="flex justify-center items-center">
+              <h1 className="text-xl md:text-2xl font-semibold mt-40 mb-4 text-center">No ingredients added to your inventory</h1>
             </div>
-          </>
-        )}
+          )}
 
-      </Skeletonize>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+
+            {ingredients.map((ingredient) => (
+              <Card
+                onDelete={() => handleDeleteIngredient(ingredient.idIngredient)}
+                key={ingredient.idIngredient}
+                title={ingredient.strIngredient}
+                image={ingredient.strThumb ?? "/images/not-found.jpg"}
+                description={`${(ingredient.strDescription ?? "A versatile component that enhances the overall profile of a dish, offering complementary notes that elevate the dining experience while integrating seamlessly with other elements to create a cohesive whole").slice(0, 150)}...`}
+              ></Card>
+            ))}
+
+          </div>
+
+          {recipes.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-bold mt-10 mb-4 text-center">Generated Recipes</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {recipes.map((meal) => (
+                  <Card
+                    onDelete={() => handleDeleteRecipe(meal.idMeal)}
+                    key={meal.idMeal}
+                    title={meal.strMeal}
+                    image={meal.strMealThumb}
+                  ></Card>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
 
       <FloatingInput
         onSearch={handleSearch}
