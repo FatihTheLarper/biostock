@@ -64,7 +64,7 @@ export default function MealPrep() {
         duration: 2000, // 2 seconds
         position: "top-center",
         transition: "bounceIn",
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
         sound: false,
         progress: true
       });
@@ -110,7 +110,7 @@ export default function MealPrep() {
           duration: 2000,
           position: "top-center",
           transition: "bounceIn",
-          icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+          icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
           sound: false,
         });
       } else {
@@ -135,31 +135,41 @@ export default function MealPrep() {
   };
 
   const handleDeleteIngredient = async (idIngredient: string) => {
-    await deleteIngredient(idIngredient);
-    setIngredients((prev) => prev.filter((i) => i.idIngredient !== idIngredient));
+    try {
+      await deleteIngredient(idIngredient);
+      setIngredients((prev) => prev.filter((i) => i.idIngredient !== idIngredient));
 
-    showToast.success("Ingredient Deleted!", {
-      duration: 2000, // 2 seconds
-      position: "top-center",
-      transition: "bounceIn",
-      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-      sound: false,
-      progress: true
-    });
-  };
+      showToast.success("Ingredient Deleted!", {
+        duration: 2000, // 2 seconds
+        position: "top-center",
+        transition: "bounceIn",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+        sound: false,
+        progress: true
+      });
+    }
+    catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to delete ingredient");
+    }
+  }
 
   const handleDeleteRecipe = async (idMeal: string) => {
-    await deleteRecipe(idMeal);
-    setRecipes((prev) => prev.filter((r) => r.idMeal !== idMeal));
-    showToast.success("Recipe Deleted!", {
-      duration: 2000, // 2 seconds
-      position: "top-center",
-      transition: "bounceIn",
-      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-      sound: false,
-      progress: true
-    });
-  };
+    try {
+      await deleteRecipe(idMeal);
+      setRecipes((prev) => prev.filter((r) => r.idMeal !== idMeal));
+      showToast.success("Recipe Deleted!", {
+        duration: 2000, // 2 seconds
+        position: "top-center",
+        transition: "bounceIn",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+        sound: false,
+        progress: true
+      });
+    }
+    catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to delete recipe")
+    }
+  }
 
   const navItems = [
     { name: "Home", href: "/home" },
