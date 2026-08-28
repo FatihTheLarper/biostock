@@ -175,8 +175,9 @@ export default function MealPrep({ name }: Name) {
       ) : (
         <>
           {ingredients.length <= 0 && (
-            <div className="flex justify-center items-center">
-              <h1 className="text-xl md:text-2xl font-semibold mt-40 mb-4 text-center">Hi {name}! There are no ingredients added to your inventory. Add them by searching for them using the search bar.</h1>
+            <div className="flex flex-col px-4 justify-center items-center">
+              <h1 className="text-2xl lg:text-3xl font-semibold mt-30 mb-8 text-center">Hi {name}! There are no ingredients added to your inventory.</h1>
+              <h1 className="text-xl lg:text-2xl font-semibold text-center">Add an ingredient by searching for it using the search bar at the bottom of the page.</h1>
             </div>
           )}
 
