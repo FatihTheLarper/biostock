@@ -9,7 +9,18 @@ import type { Ingredient, Meal } from "@/lib/themealdb";
 import { getIngredients } from "@/lib/themealdb";
 import { fetchSavedIngredients, fetchSavedRecipes, saveIngredients, saveRecipes, deleteIngredient, deleteRecipe, generateRecipes } from "./lib/api";
 
-export default function MealPrep() {
+
+declare global {
+  interface CustomJwtSessionClaims {
+    firstName?: string
+  }
+}
+
+interface Name {
+  name: string | undefined
+}
+
+export default function MealPrep({ name }: Name) {
 
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [recipes, setRecipes] = useState<Meal[]>([]);
@@ -165,7 +176,7 @@ export default function MealPrep() {
         <>
           {ingredients.length <= 0 && (
             <div className="flex justify-center items-center">
-              <h1 className="text-xl md:text-2xl font-semibold mt-40 mb-4 text-center">No ingredients added to your inventory</h1>
+              <h1 className="text-xl md:text-2xl font-semibold mt-40 mb-4 text-center">Hi {name}! There are no ingredients added to your inventory. Add them by searching for them using the search bar.</h1>
             </div>
           )}
 
