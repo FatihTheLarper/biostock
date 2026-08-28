@@ -167,7 +167,7 @@ export default function MealPrep({ name }: Name) {
       <NavBar items={navItems}></NavBar>
 
       {loading && ingredients.length === 0 && recipes.length === 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10 animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
           {[1, 2, 3].map((i) => (
             <div key={i} className="h-64 bg-neutral-200 dark:bg-neutral-700 rounded-xl" />
           ))}
@@ -189,7 +189,7 @@ export default function MealPrep({ name }: Name) {
                 key={ingredient.idIngredient}
                 title={ingredient.strIngredient}
                 image={ingredient.strThumb ?? "/images/not-found.jpg"}
-                description={`${(ingredient.strDescription ?? "A versatile component that enhances the overall profile of a dish, offering complementary notes that elevate the dining experience while integrating seamlessly with other elements to create a cohesive whole").slice(0, 150)}...`}
+                description={`${(ingredient.strDescription || "A versatile component that enhances the overall profile of a dish, offering complementary notes that elevate the dining experience while integrating seamlessly with other elements to create a cohesive whole").slice(0, 150)}...`}
               ></Card>
             ))}
 
