@@ -5,7 +5,7 @@ const About = () => {
 
   const navItems = [
     { name: "Home", href: "/home" },
-    { name: "Mealprep", href: "/mealprep" },
+    { name: "MealPrep", href: "/mealprep" },
     { name: "Contact", href: "mailto:support@example.com" }
   ]
 
