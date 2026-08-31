@@ -1,13 +1,11 @@
+import { ABOUT_LINKS } from "@/lib/constants"
 import NavBar from "../components/navbar/navbar"
 import ButtonWithLink from "../components/buttons/button_with_link"
 
+
 const About = () => {
 
-  const navItems = [
-    { name: "Home", href: "/home" },
-    { name: "MealPrep", href: "/mealprep" },
-    { name: "Contact", href: "mailto:support@example.com" }
-  ]
+  const navItems = ABOUT_LINKS
 
   return (
     <div className="w-full p-4 font-sans">

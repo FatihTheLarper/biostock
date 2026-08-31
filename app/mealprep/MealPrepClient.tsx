@@ -1,5 +1,6 @@
 'use client'
 
+import { MEALPREP_LINKS } from "@/lib/constants";
 import { showToast } from "nextjs-toast-notify";
 import { useRef, useEffect, useState } from "react";
 import NavBar from "../components/navbar/navbar";
@@ -155,11 +156,7 @@ export default function MealPrep({ name }: Name) {
     }
   }
 
-  const navItems = [
-    { name: "Home", href: "/home" },
-    { name: "About Us", href: "/about" },
-    { name: "Contact", href: "mailto:support@example.com" }
-  ];
+  const navItems = MEALPREP_LINKS
 
   return (
     <div className="w-full p-4 font-sans">

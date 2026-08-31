@@ -1,5 +1,6 @@
 'use client'
 
+import { HOME_LINKS } from "../../lib/constants"
 import Image from "next/image";
 import { ReactTyped } from "react-typed";
 import NavBar from "../components/navbar/navbar";
@@ -8,11 +9,7 @@ import hero_image from "../../public/images/hero-image.png";
 
 export default function Home() {
 
-  const navItems = [
-    { name: "MealPrep", href: "/mealprep" },
-    { name: "About Us", href: "/about" },
-    { name: "Contact", href: "mailto:support@example.com" }
-  ]
+  const navItems = HOME_LINKS
 
   return (
     <div className="w-full p-4 font-sans">
