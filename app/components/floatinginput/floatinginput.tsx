@@ -20,13 +20,13 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: Floating
   };
 
   return (
-    <div className="min-w-52 fixed bottom-32 left-1/2 -translate-x-1/2 w-[90%] bg-neutral-300 dark:bg-black opacity-85 p-4 rounded-xl font-sans">
+    <div className="min-w-52 z-20 fixed bottom-20 left-1/2 -translate-x-1/2 w-[92%] max-w-xl bg-gray-200 dark:bg-gray-800 p-3 rounded-2xl shadow-xl border border-gray-300 dark:border-gray-700 font-sans">
       {showGenerate && (
         <button
           type="button"
           disabled={loading}
           onClick={onGenerate}
-          className="w-full bg-green-700 text-white font-semibold py-2 mb-3 hover:bg-green-600 rounded-full hover:rounded-xl transition-colors disabled:cursor-not-allowed"
+          className="w-full bg-green-600 dark:bg-green-700 text-white font-semibold py-2.5 mb-2.5 rounded-lg hover:bg-green-700 dark:hover:bg-green-800 hover:shadow-md transition-colors disabled:cursor-not-allowed disabled:opacity-50"
         >
           Generate Recipes
         </button>
@@ -37,14 +37,14 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: Floating
           value={input}
           onChange={(e) => setInput(e.currentTarget.value)}
           placeholder="Enter Ingredients..."
-          className="flex-1 bg-neutral-600 dark:bg-neutral-900 text-green-200 dark:text-green-400 placeholder-neutral-400 border border-green-700 p-3 focus:outline-none rounded-full focus:border-green-400 focus:rounded-2xl"
+          className="flex-1 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 p-2.5 focus:outline-none rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 transition-all"
         />
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center justify-center bg-green-700 text-black hover:bg-green-600 rounded-full hover:rounded-2xl px-4 disabled:cursor-not-allowed"
+          className="flex items-center justify-center bg-green-600 dark:bg-green-700 text-white hover:bg-green-700 dark:hover:bg-green-800 rounded-lg px-4 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
         >
-          <span className="text-3xl">&rarr;</span>
+          <span className="text-xl">&rarr;</span>
         </button>
       </form>
     </div>
