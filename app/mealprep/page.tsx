@@ -9,5 +9,5 @@ export default async function MealPrepPage() {
     redirect("/sign-in");
   }
 
-  return <MealPrepClient name={sessionClaims.firstName} />;
+  return <MealPrepClient name={sessionClaims.firstName ?? "Guest"} />;
 }
