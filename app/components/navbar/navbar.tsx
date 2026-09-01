@@ -24,8 +24,8 @@ const NavBar = ({ items }: NavbarProps) => {
 
       <div className="nav_title flex items-center gap-3">
         <Link href="/home" className="flex items-center gap-3 group">
-          <Image src={logo} alt="logo-image" width={80} style={{ height: 'auto' }} className="rounded-lg group-hover:animate-spin" loading="eager"></Image>
-          <h1 className="font-semibold tracking-tight">BioStock</h1>
+          <Image src={logo} alt="logo-image" width={80} style={{ height: 'auto' }} className="rounded-lg"></Image>
+          <h1 className="font-medium">BioStock</h1>
         </Link>
       </div>
 
@@ -51,7 +51,7 @@ const NavBar = ({ items }: NavbarProps) => {
 
       {/* mobile menu */}
       {menuOpened && (
-        <div className="absolute top-full right-0 mt-2 w-40 bg-white dark:bg-gray-800 py-2 z-20 shadow-lg rounded-xl md:hidden flex flex-col">
+        <div className="absolute top-16 right-0 mt-2 w-40 bg-white dark:bg-gray-800 py-2 z-20 shadow-lg rounded-xl md:hidden flex flex-col">
           {items.map((item) => (
             <Link key={item.href} href={item.href} className="px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 text-right transition-colors" onClick={() => setMenuOpened(false)}>
               {item.name}

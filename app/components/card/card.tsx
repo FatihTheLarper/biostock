@@ -5,9 +5,10 @@ interface CardItems {
   image: string | StaticImageData;
   description?: string;
   onDelete?: () => void;
+  priority?: boolean;
 }
 
-const Card = ({ title, image, description, onDelete }: CardItems) => {
+const Card = ({ title, image, description, onDelete, priority }: CardItems) => {
   return (
     <div className="w-full max-w-sm mx-auto bg-green-600 dark:bg-green-700 rounded-2xl shadow-md overflow-hidden text-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       <div id="title" className="px-5 py-4 text-center">
@@ -18,8 +19,8 @@ const Card = ({ title, image, description, onDelete }: CardItems) => {
         <Image
           src={image}
           alt={title}
-          loading='lazy'
           fill
+          priority={priority}
           className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
@@ -32,7 +33,7 @@ const Card = ({ title, image, description, onDelete }: CardItems) => {
       )}
 
       {onDelete && (
-        <div className="py-3 px-4 flex justify-center">
+        <div className={`py-3 px-4 ${description && description?.length < 150 ? 'pt-10' : ''} flex justify-center`}>
           <button onClick={onDelete} className='px-4 py-2 text-base font-medium bg-red-500/90 dark:bg-red-600/90 rounded-lg hover:bg-red-600 dark:hover:bg-red-700 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300 transition-all cursor-pointer'>Delete</button>
         </div>
       )}

@@ -165,13 +165,19 @@ export default function MealPrep({ name }: Name) {
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="border border-neutral-200 dark:border-neutral-700 rounded-2xl overflow-hidden">
+              <div className="px-5 py-4">
+                <div className="h-6 bg-neutral-200 dark:bg-neutral-700 rounded w-2/3 mx-auto" />
+              </div>
               <div className="h-48 bg-neutral-200 dark:bg-neutral-700" />
-              <div className="p-4 space-y-2">
-                <div className="h-5 bg-neutral-200 dark:bg-neutral-700 rounded w-2/3" />
+              <div className="px-4 py-3 space-y-2">
                 <div className="h-3 bg-neutral-200 dark:bg-neutral-700 rounded w-full" />
                 <div className="h-3 bg-neutral-200 dark:bg-neutral-700 rounded w-4/5" />
+                <div className="h-3 bg-neutral-200 dark:bg-neutral-700 rounded w-3/5" />
+              </div>
+              <div className="py-3 flex justify-center">
+                <div className="h-10 w-24 bg-neutral-200 dark:bg-neutral-700 rounded-lg" />
               </div>
             </div>
           ))}
@@ -187,12 +193,13 @@ export default function MealPrep({ name }: Name) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
 
-            {ingredients.map((ingredient) => (
+            {ingredients.map((ingredient, index) => (
               <Card
                 onDelete={() => handleDeleteIngredient(ingredient.idIngredient)}
                 key={ingredient.idIngredient}
                 title={ingredient.strIngredient}
                 image={ingredient.strThumb ?? "/images/not-found.jpg"}
+                priority={index === 0}
                 description={`${(ingredient.strDescription || "A versatile component that enhances the overall profile of a dish, offering complementary notes that elevate the dining experience while integrating seamlessly with other elements to create a cohesive whole").slice(0, 150)}...`}
               ></Card>
             ))}
