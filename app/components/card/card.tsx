@@ -34,7 +34,7 @@ const Card = ({ title, image, description, onDelete, priority }: CardItems) => {
 
       {onDelete && (
         <div className={`py-3 px-4 ${description && description?.length < 150 ? 'pt-10' : ''} flex justify-center`}>
-          <button onClick={onDelete} className='px-4 py-2 text-base font-medium text-white bg-red-600 dark:bg-red-700 rounded-lg hover:bg-red-700 dark:hover:bg-red-800 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300 transition-all cursor-pointer'>Delete</button>
+          <button onClick={onDelete} aria-label={`Delete ${title}`} className='px-4 py-2 text-base font-medium text-white bg-red-600 dark:bg-red-700 rounded-lg hover:bg-red-700 dark:hover:bg-red-800 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300 transition-all cursor-pointer'>Delete</button>
         </div>
       )}
     </div>

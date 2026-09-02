@@ -42,6 +42,7 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: Floating
         <button
           type="submit"
           disabled={loading}
+          aria-label="Search"
           className="flex items-center justify-center bg-green-700 dark:bg-green-800 text-white hover:bg-green-800 dark:hover:bg-green-900 rounded-lg px-4 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
         >
           <span className="text-xl">&rarr;</span>
