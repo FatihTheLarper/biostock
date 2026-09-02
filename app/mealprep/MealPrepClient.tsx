@@ -159,7 +159,7 @@ export default function MealPrep({ name }: Name) {
   const navItems = MEALPREP_LINKS
 
   return (
-    <div className={`w-full p-4 ${(ingredients.length > 0 || recipes.length > 0) && 'pb-20'} font-sans flex-1`}>
+    <main className={`w-full p-4 ${(ingredients.length > 0 || recipes.length > 0) && 'pb-20'} font-sans flex-1`}>
 
       <NavBar items={navItems}></NavBar>
 
@@ -231,6 +231,6 @@ export default function MealPrep({ name }: Name) {
         loading={loading}
       ></FloatingInput>
 
-    </div>
+    </main>
   );
 }

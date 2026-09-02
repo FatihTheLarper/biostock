@@ -18,7 +18,7 @@ export default function Home() {
 
       <main id="hero-section" className="flex flex-col md:flex-row items-center justify-center w-full p-6 md:p-12 my-8 gap-8 md:gap-16 rounded-2xl bg-linear-to-br from-green-600 via-green-700 to-green-800 dark:from-green-800 dark:via-green-900 dark:to-green-950 text-white shadow-xl">
 
-        <Image className="w-56 md:w-80 rounded-2xl shadow-lg mb-2" src={hero_image} alt="hero image" style={{ height: 'auto' }} priority></Image>
+        <Image className="w-56 md:w-80 rounded-2xl shadow-lg mb-2" src={hero_image} alt="hero image" style={{ height: 'auto' }} priority sizes="(max-width: 768px) 224px, 320px"></Image>
 
         <div id="tagline" className="flex flex-col justify-center items-center text-xl md:text-2xl lg:text-3xl max-w-2xl">
 
@@ -45,7 +45,7 @@ export default function Home() {
 
           <div id="buttons" className="flex flex-col items-center md:flex-row gap-4 md:gap-8">
             <ButtonWithLink text="Start Now ->" route="/mealprep"></ButtonWithLink>
-            <ButtonWithLink text="Learn More" route="/about"></ButtonWithLink>
+            <ButtonWithLink text="About BioStock" route="/about"></ButtonWithLink>
           </div>
 
         </div>

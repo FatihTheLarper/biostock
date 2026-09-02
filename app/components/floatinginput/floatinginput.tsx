@@ -26,7 +26,7 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: Floating
           type="button"
           disabled={loading}
           onClick={onGenerate}
-          className="w-full bg-green-600 dark:bg-green-700 text-white font-semibold py-2.5 mb-2.5 rounded-lg hover:bg-green-700 dark:hover:bg-green-800 hover:shadow-md transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full bg-green-700 dark:bg-green-800 text-white font-semibold py-2.5 mb-2.5 rounded-lg hover:bg-green-800 dark:hover:bg-green-900 hover:shadow-md transition-colors disabled:cursor-not-allowed disabled:opacity-50"
         >
           Generate Recipes
         </button>
@@ -42,7 +42,7 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: Floating
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center justify-center bg-green-600 dark:bg-green-700 text-white hover:bg-green-700 dark:hover:bg-green-800 rounded-lg px-4 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+          className="flex items-center justify-center bg-green-700 dark:bg-green-800 text-white hover:bg-green-800 dark:hover:bg-green-900 rounded-lg px-4 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
         >
           <span className="text-xl">&rarr;</span>
         </button>
