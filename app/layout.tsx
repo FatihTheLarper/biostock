@@ -80,7 +80,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               </SignUpButton>
             </header>
           </Show>
-          <script async src="https://t.contentsquare.net/uxa/196919b216fcb.js"></script>
           {children}
           <Footer />
         </ClerkProvider>
