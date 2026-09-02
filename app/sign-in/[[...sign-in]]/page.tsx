@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SignIn } from "@clerk/nextjs";
 import AuthGate from "../../components/authgate/authgate";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+};
 
 export default function SignInPage() {
   return (

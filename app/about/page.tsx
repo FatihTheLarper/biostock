@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { ABOUT_LINKS } from "@/lib/constants"
 import NavBar from "../components/navbar/navbar"
 import ButtonWithLink from "../components/buttons/button_with_link"
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn how BioStock transforms household ingredients into zero-waste, nutritious meals with AI-powered recipe generation.",
+};
 
 
 const About = () => {

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Show, SignInButton, SignUpButton } from "@clerk/nextjs";
@@ -10,9 +10,31 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#16a34a",
+};
+
 export const metadata: Metadata = {
-  title: "BioStock",
-  description: "Recipe Generator",
+  title: {
+    default: "BioStock - AI-Powered Recipe Generator",
+    template: "%s | BioStock",
+  },
+  description:
+    "Turn your pantry ingredients into zero-waste, nutritious meals. BioStock's AI analyzes what you have and generates personalized recipes in seconds.",
+  openGraph: {
+    title: "BioStock - AI-Powered Recipe Generator",
+    description:
+      "Turn your pantry ingredients into zero-waste, nutritious meals.",
+    siteName: "BioStock",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BioStock - AI-Powered Recipe Generator",
+    description:
+      "Turn your pantry ingredients into zero-waste, nutritious meals.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
