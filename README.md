@@ -2,19 +2,44 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Copy the template and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+The app requires:
+
+- **MongoDB** — a connection string (`MONGO_URI`) for persisting saved ingredients and generated recipes.
+- **Clerk** — publishable + secret keys for authentication, plus the sign-in/sign-up URLs.
+- **TheMealDB** — base URL and API key for fetching ingredients and recipes.
+
+Open `.env.local` and replace every placeholder with real values. See `.env.example` for descriptions of each variable. **Never commit `.env.local`** — it is gitignored and may contain secrets.
+
+### 3. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start the development server |
+| `npm run build` | Build the production bundle |
+| `npm run start` | Serve the production build |
+| `npm test` | Run the Jest test suite |
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
