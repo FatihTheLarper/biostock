@@ -27,6 +27,6 @@ test('has a Start Now link pointing to /mealprep', () => {
 
 test('has a Learn More link pointing to /about', () => {
   render(<Home />);
-  const learnMore = screen.getByText(/Learn More/);
+  const learnMore = screen.getByText(/About Biostock/);
   expect(learnMore).toHaveAttribute("href", "/about");
 });

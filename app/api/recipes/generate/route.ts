@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { filterMealsByIngredient, lookupMealById } from "@/lib/themealdb";
 import { GenerateBody } from "@/lib/schemas";
 
@@ -27,6 +28,12 @@ async function mapWithConcurrency<T, R>(
 }
 
 export async function POST(request: Request) {
+
+  const { userId } = await auth();
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const body = await request.json();
   const parsed = GenerateBody.safeParse(body);
@@ -59,7 +66,7 @@ export async function POST(request: Request) {
     lookupMealById(id)
   );
 
-  const userNames = new Set(ingredients.map((i) => i.toLowerCase()));
+  const userIngredients = new Set(ingredients.map((i) => i.toLowerCase()));
   const matching: { idMeal: string; strMeal: string; strMealThumb: string }[] = [];
 
   for (const r of detailResults) {
@@ -68,7 +75,7 @@ export async function POST(request: Request) {
     const d = r.value;
     if (!d || d.ingredients.length === 0) continue;
 
-    const missing = d.ingredients.filter((ing) => !userNames.has(ing));
+    const missing = d.ingredients.filter((ing) => !userIngredients.has(ing));
 
     if (missing.length <= 1) {
       matching.push({ idMeal: d.idMeal, strMeal: d.strMeal, strMealThumb: d.strMealThumb });

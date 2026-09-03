@@ -30,7 +30,7 @@ interface IngredientListResult {
 const BASE_URL = process.env.NEXT_PUBLIC_THEMEALDB_BASE_URL;
 
 const MAX_ATTEMPTS = 3;
-const TIMEOUT_MS = 5000;
+const TIMEOUT_MS = 4000;
 const BASE_DELAY_MS = 150;
 
 function delay(ms: number) {
