@@ -26,6 +26,7 @@ export default function MealPrep({ name }: Name) {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -113,7 +114,7 @@ export default function MealPrep({ name }: Name) {
 
     if (ingredients.length === 0) return;
 
-    setLoading(true);
+    setGenerating(true);
 
     try {
       const matching = await generateRecipes(ingredients.map((i) => i.strIngredient));
@@ -130,7 +131,7 @@ export default function MealPrep({ name }: Name) {
       errorToast("Failed to fetch recipes");
     }
 
-    setLoading(false);
+    setGenerating(false);
 
   };
 
@@ -162,6 +163,16 @@ export default function MealPrep({ name }: Name) {
     <main className={`w-full p-4 ${(ingredients.length > 0 || recipes.length > 0) && 'pb-20'} font-sans flex-1`}>
 
       <NavBar items={navItems}></NavBar>
+
+      {generating && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30" role="status">
+          <span className="sr-only">Generating recipes with AI</span>
+          <div className="flex flex-col items-center gap-4 rounded-2xl bg-white dark:bg-gray-800 p-8 shadow-xl">
+            <div className="w-12 h-12 border-4 border-green-200 border-t-green-600 rounded-full animate-spin" />
+            <p className="text-lg font-medium text-green-700 dark:text-green-300">Generating Recipes with AI...</p>
+          </div>
+        </div>
+      )}
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10" role="status">

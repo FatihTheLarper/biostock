@@ -29,13 +29,44 @@ interface IngredientListResult {
 
 const BASE_URL = process.env.NEXT_PUBLIC_THEMEALDB_BASE_URL;
 
+const MAX_ATTEMPTS = 3;
+const TIMEOUT_MS = 8000;
+const BASE_DELAY_MS = 400;
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function fetchWithRetry(url: string): Promise<Response> {
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    try {
+      const result = await fetch(url, {
+        signal: controller.signal,
+        cache: "no-store",
+      });
+      if (result.ok) return result;
+      if (attempt === MAX_ATTEMPTS) {
+        throw new Error(`TheMealDB request failed: ${result.status}`);
+      }
+    } catch (err) {
+      if (attempt === MAX_ATTEMPTS) {
+        throw err instanceof Error
+          ? err
+          : new Error("TheMealDB request failed");
+      }
+    } finally {
+      clearTimeout(timer);
+    }
+    await delay(BASE_DELAY_MS * attempt);
+  }
+  throw new Error("TheMealDB request failed");
+}
+
 export async function getIngredients(): Promise<Ingredient[]> {
 
-  const result = await fetch(`${BASE_URL}/list.php?i=list`);
-
-  if (!result.ok) {
-    throw new Error(`TheMealDB request failed: ${result.status}`);
-  }
+  const result = await fetchWithRetry(`${BASE_URL}/list.php?i=list`);
 
   const data = (await result.json()) as IngredientListResult;
   return data.meals ?? [];
@@ -44,11 +75,7 @@ export async function getIngredients(): Promise<Ingredient[]> {
 
 export async function filterMealsByIngredient(ingredient: string): Promise<Meal[]> {
 
-  const result = await fetch(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}`);
-
-  if (!result.ok) {
-    throw new Error(`TheMealDB request failed: ${result.status}`);
-  }
+  const result = await fetchWithRetry(`${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}`);
 
   const data = (await result.json()) as MealListResult;
   return data.meals ?? [];
@@ -57,11 +84,7 @@ export async function filterMealsByIngredient(ingredient: string): Promise<Meal[
 
 export async function lookupMealById(id: string): Promise<MealDetail | null> {
 
-  const result = await fetch(`${BASE_URL}/lookup.php?i=${id}`);
-
-  if (!result.ok) {
-    throw new Error(`TheMealDB request failed: ${result.status}`);
-  }
+  const result = await fetchWithRetry(`${BASE_URL}/lookup.php?i=${id}`);
 
   const data = (await result.json()) as MealDetailResult;
   const raw = data.meals?.[0];
