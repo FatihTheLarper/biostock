@@ -7,8 +7,7 @@ async function mapWithConcurrency<T, R>(
   items: T[],
   limit: number,
   worker: (item: T) => Promise<R>
-): Promise<PromiseSettledResult<R>[]>
-{
+): Promise<PromiseSettledResult<R>[]> {
   const results: PromiseSettledResult<R>[] = new Array(items.length);
   let cursor = 0;
 
@@ -43,7 +42,7 @@ export async function POST(request: Request) {
 
   const { ingredients } = parsed.data;
 
-  const filterResults = await mapWithConcurrency(ingredients, 5, (i) =>
+  const filterResults = await mapWithConcurrency(ingredients, 10, (i) =>
     filterMealsByIngredient(i)
   );
 
@@ -56,7 +55,7 @@ export async function POST(request: Request) {
 
   const idList = [...allMealIds];
 
-  const detailResults = await mapWithConcurrency(idList, 5, (id) =>
+  const detailResults = await mapWithConcurrency(idList, 10, (id) =>
     lookupMealById(id)
   );
 

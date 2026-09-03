@@ -30,8 +30,8 @@ interface IngredientListResult {
 const BASE_URL = process.env.NEXT_PUBLIC_THEMEALDB_BASE_URL;
 
 const MAX_ATTEMPTS = 3;
-const TIMEOUT_MS = 8000;
-const BASE_DELAY_MS = 400;
+const TIMEOUT_MS = 5000;
+const BASE_DELAY_MS = 150;
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -44,7 +44,7 @@ async function fetchWithRetry(url: string): Promise<Response> {
     try {
       const result = await fetch(url, {
         signal: controller.signal,
-        cache: "no-store",
+        next: { revalidate: 86400 },
       });
       if (result.ok) return result;
       if (attempt === MAX_ATTEMPTS) {
