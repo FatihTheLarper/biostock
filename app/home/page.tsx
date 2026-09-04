@@ -16,7 +16,7 @@ export default function Home() {
 
       <NavBar items={navItems}></NavBar>
 
-      <main id="hero-section" className="flex flex-col md:flex-row items-center justify-center w-full p-6 md:p-12 my-8 md:my-8 gap-8 md:gap-16 rounded-2xl bg-linear-to-br from-green-600 via-green-700 to-green-800 dark:from-green-800 dark:via-green-900 dark:to-green-950 text-white shadow-xl">
+      <main id="hero-section" className="flex flex-col md:flex-row items-center justify-center w-full p-6 md:p-12 mt-5 mb-8 md:mt-8 md:mb-8 gap-8 md:gap-16 rounded-2xl bg-linear-to-br from-green-600 via-green-700 to-green-800 dark:from-green-800 dark:via-green-900 dark:to-green-950 text-white shadow-xl">
 
         <Image className="w-56 md:w-80 rounded-2xl shadow-lg mb-2" src={hero_image} alt="hero image" style={{ height: 'auto' }} priority sizes="(max-width: 768px) 224px, 320px"></Image>
 
