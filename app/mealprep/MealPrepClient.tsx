@@ -27,6 +27,7 @@ export default function MealPrep({ name }: Name) {
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [ingredientsCollapsed, setIngredientsCollapsed] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -123,6 +124,7 @@ export default function MealPrep({ name }: Name) {
         errorToast("No recipes found with these ingredients");
       } else {
         setRecipes(matching);
+        setIngredientsCollapsed(true);
         await saveRecipes(matching);
         successToast("Recipe added to inventory!", true);
       }
@@ -160,7 +162,7 @@ export default function MealPrep({ name }: Name) {
   const navItems = MEALPREP_LINKS
 
   return (
-    <main className={`w-full px-3 pt-1 pb-4 md:p-4 font-sans flex-1`}>
+    <main className="flex flex-col flex-1 w-full px-3 pt-1 pb-4 md:p-4 font-sans">
 
       <NavBar items={navItems}></NavBar>
 
@@ -203,20 +205,51 @@ export default function MealPrep({ name }: Name) {
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mt-3 md:mt-10">
+          {recipes.length > 0 && (
+            <div className="flex items-center justify-center mt-8 md:mt-10 mb-4">
+              <button
+                onClick={() => setIngredientsCollapsed((collapsed) => !collapsed)}
+                aria-pressed={ingredientsCollapsed}
+                aria-label={ingredientsCollapsed ? "Show ingredient cards" : "Shrink ingredients to chips"}
+                className="text-sm md:text-base font-medium text-green-700 dark:text-green-300 bg-green-50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800 ring-1 ring-green-600/20 dark:ring-green-400/20 px-3 py-1.5 rounded-full transition-colors"
+              >
+                {ingredientsCollapsed ? "Show ingredient cards" : "Shrink ingredients to chips"}
+              </button>
+            </div>
+          )}
 
-            {ingredients.map((ingredient, index) => (
-              <Card
-                onDelete={() => handleDeleteIngredient(ingredient.idIngredient)}
-                key={ingredient.idIngredient}
-                title={ingredient.strIngredient}
-                image={ingredient.strThumb ?? "/images/not-found.jpg"}
-                priority={index === 0}
-                description={`${(ingredient.strDescription || "A versatile component that enhances the overall profile of a dish, offering complementary notes that elevate the dining experience while integrating seamlessly with other elements to create a cohesive whole").slice(0, 150)}...`}
-              ></Card>
-            ))}
-
-          </div>
+          {ingredientsCollapsed && recipes.length > 0 ? (
+            <div className="flex flex-wrap gap-2 mt-2 items-center justify-center">
+              {ingredients.map((ingredient) => (
+                <span
+                  key={ingredient.idIngredient}
+                  className="inline-flex items-center gap-1.5 bg-white dark:bg-green-800 ring-1 ring-green-600/20 dark:ring-green-400/20 rounded-full px-3 py-1 text-sm text-green-700 dark:text-green-200 shadow-sm"
+                >
+                  {ingredient.strIngredient}
+                  <button
+                    onClick={() => handleDeleteIngredient(ingredient.idIngredient)}
+                    aria-label={`Remove ${ingredient.strIngredient}`}
+                    className="text-green-600 dark:text-green-300 hover:text-red-600 font-bold leading-none"
+                  >
+                    &times;
+                  </button>
+                </span>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mt-3 md:mt-10">
+              {ingredients.map((ingredient, index) => (
+                <Card
+                  onDelete={() => handleDeleteIngredient(ingredient.idIngredient)}
+                  key={ingredient.idIngredient}
+                  title={ingredient.strIngredient}
+                  image={ingredient.strThumb ?? "/images/not-found.jpg"}
+                  priority={index === 0}
+                  description={`${(ingredient.strDescription || "A versatile component that enhances the overall profile of a dish, offering complementary notes that elevate the dining experience while integrating seamlessly with other elements to create a cohesive whole").slice(0, 150)}...`}
+                ></Card>
+              ))}
+            </div>
+          )}
 
           {recipes.length > 0 && (
             <div>
