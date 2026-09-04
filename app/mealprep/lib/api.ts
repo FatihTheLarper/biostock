@@ -1,4 +1,4 @@
-import type { Ingredient, Meal } from "./themealdb";
+import type { Ingredient, Meal } from "@/lib/themealdb";
 
 export async function fetchSavedIngredients(): Promise<Ingredient[]> {
   const res = await fetch("/api/ingredients");
@@ -7,11 +7,13 @@ export async function fetchSavedIngredients(): Promise<Ingredient[]> {
 }
 
 export async function saveIngredients(ingredients: Ingredient[]): Promise<void> {
-  await fetch("/api/ingredients", {
+  const res = await fetch("/api/ingredients", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(ingredients),
   });
+
+  if (!res.ok) throw new Error("Failed to save ingredient to database");
 }
 
 export async function fetchSavedRecipes(): Promise<Meal[]> {
@@ -21,21 +23,41 @@ export async function fetchSavedRecipes(): Promise<Meal[]> {
 }
 
 export async function saveRecipes(recipes: Meal[]): Promise<void> {
-  await fetch("/api/recipes", {
+  const res = await fetch("/api/recipes", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(recipes),
   });
+
+  if (!res.ok) throw new Error("Failed to save recipes to database");
 }
 
 export async function deleteIngredient(idIngredient: string): Promise<void> {
-  await fetch(`/api/ingredients?idIngredient=${encodeURIComponent(idIngredient)}`, {
+  const res = await fetch(`/api/ingredients?idIngredient=${encodeURIComponent(idIngredient)}`, {
     method: "DELETE"
   });
+
+  if (!res.ok) throw new Error("Failed to delete ingredients");
+
 }
 
 export async function deleteRecipe(idMeal: string): Promise<void> {
-  await fetch(`/api/recipes?idMeal=${encodeURIComponent(idMeal)}`, {
+  const res = await fetch(`/api/recipes?idMeal=${encodeURIComponent(idMeal)}`, {
     method: "DELETE"
   });
+
+  if (!res.ok) throw new Error("Failed  to delete recipes");
+
+}
+
+export async function generateRecipes(ingredients: string[]): Promise<Meal[]> {
+  const res = await fetch("/api/recipes/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ingredients }),
+  });
+  if (!res.ok) throw new Error("Failed to generate recipes");
+  return res.json();
 }

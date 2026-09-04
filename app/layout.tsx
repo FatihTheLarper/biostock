@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Geist } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Show, SignInButton, SignUpButton } from "@clerk/nextjs";
+import Footer from "./components/footer/footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -9,21 +10,38 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export const viewport: Viewport = {
+  themeColor: "#16a34a",
+};
 
 export const metadata: Metadata = {
-  title: "BioStock",
-  description: "Recipe Generator",
+  title: {
+    default: "BioStock - AI-Powered Recipe Generator",
+    template: "%s | BioStock",
+  },
+  description:
+    "Turn your pantry ingredients into zero-waste, nutritious meals. BioStock's AI analyzes what you have and generates personalized recipes in seconds.",
+  openGraph: {
+    title: "BioStock - AI-Powered Recipe Generator",
+    description:
+      "Turn your pantry ingredients into zero-waste, nutritious meals.",
+    siteName: "BioStock",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BioStock - AI-Powered Recipe Generator",
+    description:
+      "Turn your pantry ingredients into zero-waste, nutritious meals.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider
@@ -42,7 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               colorDanger: "#EF4444",
               colorSuccess: "#22C543",
               colorWarning: "#F36B16",
-              colorShimmer: "#bijela",
+              colorShimmer: "#FFFFFF",
               colorModalBackdrop: "#000000",
               borderRadius: "0.375rem",
             },
@@ -63,6 +81,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </header>
           </Show>
           {children}
+          <Footer />
         </ClerkProvider>
       </body>
     </html>

@@ -1,7 +1,9 @@
+import { z } from "zod";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import connectToDatabase from "@/lib/mongodb";
 import SavedRecipe from "../../../app/mealprep/lib/models/SavedRecipe";
+import { RecipesBody } from "@/lib/schemas";
 
 export async function GET() {
 
@@ -11,10 +13,13 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  await connectToDatabase();
-  const recipes = await SavedRecipe.find({ userId }).lean();
-
-  return NextResponse.json(recipes);
+  try {
+    await connectToDatabase();
+    const recipes = await SavedRecipe.find({ userId }).lean();
+    return NextResponse.json(recipes);
+  } catch {
+    return NextResponse.json({ error: "Failed to fetch recipes" }, { status: 500 });
+  }
 
 }
 
@@ -27,12 +32,25 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const items = body.map((item: Record<string, string>) => ({ ...item, userId }));
+  const parsed = RecipesBody.safeParse(body);
 
-  await connectToDatabase();
-  await SavedRecipe.insertMany(items, { ordered: false }).catch(() => { });
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        error: "Invalid recipes data",
+        details: z.flattenError(parsed.error).fieldErrors
+      },
+      { status: 400 });
+  }
 
-  return NextResponse.json({ ok: true });
+  try {
+    await connectToDatabase();
+    const items = parsed.data.map((item) => ({ ...item, userId }));
+    await SavedRecipe.insertMany(items, { ordered: false }).catch(() => { });
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "Failed to save recipes" }, { status: 500 });
+  }
 
 }
 
@@ -51,10 +69,12 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Missing idMeal" }, { status: 400 });
   }
 
-  await connectToDatabase();
-
-  await SavedRecipe.deleteOne({ userId, idMeal });
-
-  return NextResponse.json({ ok: true });
+  try {
+    await connectToDatabase();
+    await SavedRecipe.deleteOne({ userId, idMeal });
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "Failed to delete recipe" }, { status: 500 });
+  }
 
 }

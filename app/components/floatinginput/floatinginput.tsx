@@ -6,9 +6,10 @@ interface FloatingInputProps {
   onSearch: (query: string) => void;
   onGenerate: () => void;
   showGenerate: boolean;
+  loading: boolean;
 }
 
-const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProps) => {
+const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: FloatingInputProps) => {
 
   const [input, setInput] = useState("")
 
@@ -19,29 +20,32 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate }: FloatingInputProp
   };
 
   return (
-    <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-3/4 bg-black p-4 rounded-lg font-sans">
+    <div className="min-w-52 z-20 fixed bottom-20 left-1/2 -translate-x-1/2 w-[92%] max-w-xl bg-gray-200 dark:bg-gray-800 p-3 rounded-2xl shadow-xl border border-gray-300 dark:border-gray-700 font-sans">
       {showGenerate && (
         <button
           type="button"
+          disabled={loading}
           onClick={onGenerate}
-          className="w-full bg-green-700 text-white font-semibold py-2 mb-3 hover:bg-green-600 rounded-full hover:rounded-xl transition-colors"
+          className="w-full bg-green-700 dark:bg-green-800 text-white font-semibold py-2.5 mb-2.5 rounded-lg hover:bg-green-800 dark:hover:bg-green-900 hover:shadow-md transition-colors disabled:cursor-not-allowed disabled:opacity-50"
         >
           Generate Recipes
         </button>
       )}
-      <form onSubmit={handleSubmit} className="flex gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.currentTarget.value)}
           placeholder="Enter Ingredients..."
-          className="flex-1 bg-neutral-900 text-green-400 placeholder-neutral-400 border border-green-700 p-3 focus:outline-none rounded-full focus:border-green-400 focus:rounded-2xl"
+          className="flex-1 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 p-2.5 focus:outline-none rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 transition-all"
         />
         <button
           type="submit"
-          className="flex items-center justify-center bg-green-700 text-black hover:bg-green-600 rounded-full hover:rounded-2xl px-4"
+          disabled={loading}
+          aria-label="Search"
+          className="flex items-center justify-center bg-green-700 dark:bg-green-800 text-white hover:bg-green-800 dark:hover:bg-green-900 rounded-lg px-4 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
         >
-          <span className="text-3xl">&rarr;</span>
+          <span className="text-xl">&rarr;</span>
         </button>
       </form>
     </div>
