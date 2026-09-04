@@ -160,7 +160,7 @@ export default function MealPrep({ name }: Name) {
   const navItems = MEALPREP_LINKS
 
   return (
-    <main className={`w-full px-3 py-4 md:p-4 ${(ingredients.length > 0 || recipes.length > 0) && 'pb-20'} font-sans flex-1`}>
+    <main className={`w-full px-3 py-4 md:p-4 font-sans flex-1`}>
 
       <NavBar items={navItems}></NavBar>
 
