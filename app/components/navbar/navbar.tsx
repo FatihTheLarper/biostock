@@ -20,7 +20,7 @@ const NavBar = ({ items }: NavbarProps) => {
   const [menuOpened, setMenuOpened] = useState(false)
 
   return (
-    <nav className={`sticky top-2 z-50 flex w-full py-2 px-3 md:px-6 items-center justify-between rounded-xl font-sans ${menuOpened ? 'bg-green-700 dark:bg-green-800' : 'bg-green-600 dark:bg-green-700'} text-white text-base md:text-xl xl:text-2xl shadow-sm border-b-2 border-black/5 transition-colors`}>
+    <nav className={`sticky top-2 z-50 flex w-full py-2 px-3 md:py-6 items-center justify-between rounded-xl font-sans ${menuOpened ? 'bg-green-700 dark:bg-green-800' : 'bg-green-600 dark:bg-green-700'} text-white text-base md:text-xl xl:text-2xl shadow-sm border-b-2 border-black/5 transition-colors`}>
 
       <div className="nav_title flex items-center gap-2 md:gap-3">
         <Link href="/home" className="flex items-center gap-2 md:gap-3 group">
@@ -51,7 +51,7 @@ const NavBar = ({ items }: NavbarProps) => {
 
       {/* mobile menu */}
       {menuOpened && (
-        <div className="absolute top-14 right-0 mt-2 w-36 bg-white dark:bg-gray-800 py-2 z-20 shadow-lg rounded-xl md:hidden flex flex-col">
+        <div className="absolute top-9 right-0 mt-2 w-36 bg-white dark:bg-gray-800 py-2 z-20 shadow-lg rounded-xl md:hidden flex flex-col">
           {items.map((item) => (
             <Link key={item.href} href={item.href} className="px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 text-right transition-colors" onClick={() => setMenuOpened(false)}>
               {item.name}

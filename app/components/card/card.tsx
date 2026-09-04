@@ -10,7 +10,7 @@ interface CardItems {
 
 const Card = ({ title, image, description, onDelete, priority }: CardItems) => {
   return (
-    <div className="w-full max-w-sm mx-auto bg-white dark:bg-green-800 rounded-xl md:rounded-2xl shadow-md overflow-hidden ring-1 ring-green-600/20 dark:ring-green-400/20 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="w-[90%] max-w-sm mx-auto bg-white dark:bg-green-800 rounded-xl md:rounded-2xl shadow-md overflow-hidden ring-1 ring-green-600/20 dark:ring-green-400/20 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       <div id="title" className="px-4 py-3 md:px-5 md:py-4 text-center">
         <h2 className="text-base md:text-xl font-medium tracking-tight text-green-700 dark:text-green-200">{title}</h2>
       </div>
