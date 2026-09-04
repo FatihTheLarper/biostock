@@ -27,7 +27,7 @@ export default function MealPrep({ name }: Name) {
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
-  const [ingredientsCollapsed, setIngredientsCollapsed] = useState(false);
+  const [ingredientsCollapsed, setIngredientsCollapsed] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -205,7 +205,7 @@ export default function MealPrep({ name }: Name) {
             </div>
           )}
 
-          {recipes.length > 0 && (
+          {(ingredients.length > 0 && recipes.length > 0) && (
             <div className="flex items-center justify-center mt-8 md:mt-10 mb-4">
               <button
                 onClick={() => setIngredientsCollapsed((collapsed) => !collapsed)}
@@ -223,13 +223,13 @@ export default function MealPrep({ name }: Name) {
               {ingredients.map((ingredient) => (
                 <span
                   key={ingredient.idIngredient}
-                  className="inline-flex items-center gap-1.5 bg-white dark:bg-green-800 ring-1 ring-green-600/20 dark:ring-green-400/20 rounded-full px-3 py-1 text-sm text-green-700 dark:text-green-200 shadow-sm"
+                  className="inline-flex items-center gap-1.5 bg-white dark:bg-green-800 ring-1 ring-green-600/20 dark:ring-green-400/20 rounded-full px-3 py-1 text-sm text-green-700 dark:text-green-200 shadow-sm transition-all"
                 >
                   {ingredient.strIngredient}
                   <button
                     onClick={() => handleDeleteIngredient(ingredient.idIngredient)}
                     aria-label={`Remove ${ingredient.strIngredient}`}
-                    className="text-green-600 dark:text-green-300 hover:text-red-600 font-bold leading-none"
+                    className="text-2xl font-light text-green-600 dark:text-green-300 hover:text-red-600 transition-colors leading-none"
                   >
                     &times;
                   </button>
