@@ -19,7 +19,7 @@ const About = () => {
 
       <NavBar items={navItems}></NavBar>
 
-      <main className="flex flex-col items-center justify-center w-full p-5 md:p-14 my-8 rounded-2xl bg-gradient-to-br from-green-600 via-green-700 to-green-800 dark:from-green-800 dark:via-green-900 dark:to-green-950 text-white shadow-xl">
+      <main className="flex flex-col items-center justify-center w-full p-5 md:p-14 mt-5 mb-8 md:mt-8 md:mb-8 rounded-2xl bg-gradient-to-br from-green-600 via-green-700 to-green-800 dark:from-green-800 dark:via-green-900 dark:to-green-950 text-white shadow-xl">
 
         <div className="flex flex-col items-center text-center max-w-4xl gap-6">
 

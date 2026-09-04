@@ -160,7 +160,7 @@ export default function MealPrep({ name }: Name) {
   const navItems = MEALPREP_LINKS
 
   return (
-    <main className={`w-full px-3 py-4 md:p-4 font-sans flex-1`}>
+    <main className={`w-full px-3 pt-1 pb-4 md:p-4 font-sans flex-1`}>
 
       <NavBar items={navItems}></NavBar>
 
@@ -175,7 +175,7 @@ export default function MealPrep({ name }: Name) {
       )}
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mt-6 md:mt-10" role="status">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mt-3 md:mt-10" role="status">
           <span className="sr-only">Loading...</span>
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="border border-neutral-200 dark:border-neutral-700 rounded-2xl overflow-hidden">
@@ -198,12 +198,12 @@ export default function MealPrep({ name }: Name) {
         <>
           {ingredients.length <= 0 && (
             <div className="flex flex-col px-4 justify-center items-center">
-              <h1 className="text-lg md:text-2xl lg:text-3xl font-semibold mt-10 md:mt-30 mb-8 text-center">Hi {name}! There are no ingredients added to your inventory.</h1>
+              <h1 className="text-lg md:text-2xl lg:text-3xl font-semibold mt-8 md:mt-30 mb-8 text-center">Hi {name}! There are no ingredients added to your inventory.</h1>
               <h1 className="text-base md:text-xl lg:text-2xl font-semibold text-center">Add an ingredient by searching for it using the search bar at the bottom of the page.</h1>
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mt-6 md:mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mt-3 md:mt-10">
 
             {ingredients.map((ingredient, index) => (
               <Card
