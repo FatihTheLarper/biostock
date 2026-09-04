@@ -20,7 +20,8 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: Floating
   };
 
   return (
-    <div className="min-w-52 z-20 fixed bottom-20 left-1/2 -translate-x-1/2 w-[92%] max-w-xl bg-gray-200 dark:bg-gray-800 p-2.5 md:p-3 rounded-2xl shadow-xl border border-gray-300 dark:border-gray-700 font-sans">
+    <div className="min-w-52 z-20 sticky bottom-0 w-full bg-gray-200 dark:bg-gray-800 p-2.5 md:p-3 mt-6 rounded-t-2xl shadow-xl border-t border-gray-300 dark:border-gray-700 font-sans">
+      <div className="min-w-52 w-[92%] max-w-xl mx-auto">
       {showGenerate && (
         <button
           type="button"
@@ -48,6 +49,7 @@ const FloatingInput = ({ onSearch, onGenerate, showGenerate, loading }: Floating
           <span className="text-lg md:text-xl">&rarr;</span>
         </button>
       </form>
+      </div>
     </div>
   );
 }
