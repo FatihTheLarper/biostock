@@ -16,15 +16,15 @@ export default function Home() {
 
       <NavBar items={navItems}></NavBar>
 
-      <main id="hero-section" className="flex flex-col md:flex-row items-center justify-center w-full p-6 md:p-12 my-8 gap-8 md:gap-16 rounded-2xl bg-linear-to-br from-green-600 via-green-700 to-green-800 dark:from-green-800 dark:via-green-900 dark:to-green-950 text-white shadow-xl">
+      <main id="hero-section" className="flex flex-col md:flex-row items-center justify-center w-full p-4 md:p-12 my-6 md:my-8 gap-6 md:gap-16 rounded-2xl bg-linear-to-br from-green-600 via-green-700 to-green-800 dark:from-green-800 dark:via-green-900 dark:to-green-950 text-white shadow-xl">
 
-        <Image className="w-56 md:w-80 rounded-2xl shadow-lg mb-2" src={hero_image} alt="hero image" style={{ height: 'auto' }} priority sizes="(max-width: 768px) 224px, 320px"></Image>
+        <Image className="w-44 md:w-80 rounded-2xl shadow-lg mb-2" src={hero_image} alt="hero image" style={{ height: 'auto' }} priority sizes="(max-width: 768px) 176px, 320px"></Image>
 
-        <div id="tagline" className="flex flex-col justify-center items-center text-xl md:text-2xl lg:text-3xl max-w-2xl">
+        <div id="tagline" className="flex flex-col justify-center items-center text-base md:text-2xl lg:text-3xl max-w-2xl">
 
           <h1 className="w-full text-center mb-4">Welcome to BioStock, where your ingredients become</h1>
           <ReactTyped
-            className="text-2xl md:text-3xl lg:text-4xl mb-8 text-center font-semibold bg-clip-text text-transparent bg-linear-to-r from-red-300 via-green-300 to-blue-300 dark:from-red-500 dark:via-green-400 dark:to-blue-500"
+            className="text-lg md:text-3xl lg:text-4xl mb-8 text-center font-semibold bg-clip-text text-transparent bg-linear-to-r from-red-300 via-green-300 to-blue-300 dark:from-red-500 dark:via-green-400 dark:to-blue-500"
             strings={[
               "endless possibilities",
               "zero-waste meals",
@@ -39,7 +39,7 @@ export default function Home() {
           >
           </ReactTyped>
 
-          <p className="w-full max-w-2xl text-center text-base md:text-lg lg:text-xl text-gray-100 dark:text-gray-200 mb-10 px-4">
+          <p className="w-full max-w-2xl text-center text-sm md:text-lg lg:text-xl text-gray-100 dark:text-gray-200 mb-10 px-4">
             Stop wondering what to cook. Simply input what you have in your pantry, and let our AI generate delicious, sustainable recipes tailored to your taste in seconds.
           </p>
 
